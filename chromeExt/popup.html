@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HearMeOut, Literally ++</title>
+  <style>
+    :root {
+      --primary: #0078d7;
+      --primary-dark: #005fa3;
+      --bg: #f9fafb;
+      --text: #1a1a1a;
+      --muted: #555;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      --radius: 14px;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #ffffff 0%, #eef2f5 100%);
+      color: var(--text);
+      margin: 0;
+      padding: 1.25rem;
+      width: 320px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+      background: linear-gradient(90deg, var(--primary), #00b4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.25rem;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .toggle {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: #f3f4f6;
+      border-radius: 40px;
+      padding: 6px;
+      cursor: pointer;
+      user-select: none;
+      margin: 0.75rem 0 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .toggle.active {
+      background: var(--primary);
+    }
+
+    .toggle-circle {
+      width: 28px;
+      height: 28px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      transition: transform 0.3s ease;
+    }
+
+    .toggle.active .toggle-circle {
+      transform: translateX(120%);
+    }
+
+    .status-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      transition: color 0.3s ease;
+    }
+
+    .status-text.active {
+      color: var(--success);
+    }
+
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 0.5rem;
+      box-shadow: var(--shadow);
+      transition: background 0.25s ease, transform 0.15s ease;
+    }
+
+    .button:hover {
+      background: var(--primary-dark);
+      transform: scale(1.02);
+    }
+
+    .button.secondary {
+      background: #f1f3f5;
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .button.secondary:hover {
+      background: #e7e9ec;
+    }
+
+    .footer {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .glow {
+      animation: pulse 2.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 120, 215, 0.5); }
+      50% { box-shadow: 0 0 10px 4px rgba(0, 120, 215, 0.3); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Web Accessibility Assistant</h1>
+
+  <div class="card">
+    <div id="toggle" class="toggle" role="switch" aria-checked="false" tabindex="0">
+      <div class="toggle-circle"></div>
+    </div>
+    <div id="statusText" class="status-text">Accessibility is off</div>
+
+    <button id="testRead" class="button">🔊 Test Voice</button>
+    <button id="openHelp" class="button secondary">❔ Help & Shortcuts</button>
+  </div>
+
+  <div class="footer">
+    <p>Use <strong>Alt + A</strong> to toggle anytime</p>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const toggle = document.getElementById('toggle');
+      const statusText = document.getElementById('statusText');
+      const testRead = document.getElementById('testRead');
+      const STORAGE_KEY = 'wai:enabled';
+
+      const { [STORAGE_KEY]: enabled } = await chrome.storage.local.get(STORAGE_KEY);
+      updateUI(!!enabled);
+
+      function updateUI(isEnabled) {
+        toggle.classList.toggle('active', isEnabled);
+        statusText.classList.toggle('active', isEnabled);
+        toggle.setAttribute('aria-checked', isEnabled);
+        statusText.textContent = isEnabled
+          ? 'Accessibility is active'
+          : 'Accessibility is off';
+      }
+
+      async function setEnabled(next) {
+        await chrome.storage.local.set({ [STORAGE_KEY]: next });
+        updateUI(next);
+        chrome.runtime.sendMessage({ type: 'STATE_SET', enabled: next });
+      }
+
+      toggle.addEventListener('click', async () => {
+        const { [STORAGE_KEY]: current } = await chrome.storage.local.get(STORAGE_KEY);
+        setEnabled(!current);
+      });
+
+      toggle.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle.click();
+        }
+      });
+
+      testRead.addEventListener('click', () => {
+        chrome.runtime.sendMessage({
+          type: 'ANNOUNCE',
+          text: 'Hello! The Web Accessibility Assistant is working properly.'
+        });
+      });
+
+      document.getElementById('openHelp').addEventListener('click', () => {
+        alert(
+          'Keyboard shortcuts:\n\n' +
+          'Alt + A → Toggle Assistant\n' +
+          'Space → Pause/Resume speech\n' +
+          'Escape → Stop narration\n' +
+          'Arrow Down/Up → Navigate through elements'
+        );
+      });
+    });
+  </script>
+</body>
+</html>
