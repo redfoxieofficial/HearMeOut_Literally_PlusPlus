@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HearMeOut — Assistant++</title>
+<link rel="stylesheet" href="style/popup.css">
+<script src="scripts/myfuncs.js"></script>
+
+</head>
+
+<body>
+  <div class="glass-card">
+    
+    <div class="mascot"></div>
+
+    <h1>HearMeOut Assistant</h1>
+    
+    <div class="toggle-wrapper">
+      <div id="toggle" class="toggle" aria-checked="false">
+        <div class="toggle-circle"></div>
+      </div>
+    </div>
+
+    <div id="statusText" class="status">Accessibility is off</div>
+
+    <!--
+        <button id="testRead" class="button">🔊 Test Voice</button>
+    -->
+    <a href="settings.html"><button id="settingsButton" class="button">Settings</button></a>
+    <button id="openHelp" class="button secondary">❔ Help & Shortcuts</button>
+
+  </div>
+
+  <div class="footer">
+    Press <strong>Alt + A</strong> anytime to toggle
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>HearMeOut — Settings</title>
+<link rel="stylesheet" href="style/settings.css" />
+</head>
+
+<body>
+
+<div class="settings-card">
+
+  <h2>⚙️ Settings</h2>
+
+  <div class="setting">
+    <label>🔊 Volume</label>
+    <input id="volume" type="range" min="0" max="100" />
+  </div>
+
+  <div class="setting">
+    <label>📘 Read Selected Text</label>
+    <label class="switch">
+      <input id="readSelect" type="checkbox">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="setting">
+    <label>🖼 Image Descriptions</label>
+    <label class="switch">
+      <input id="imageDesc" type="checkbox">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="setting">
+    <label>⚡ Reading Speed</label>
+    <select id="speed">
+      <option value="0.9">Slow</option>
+      <option value="1">Normal</option>
+      <option value="1.2">Fast</option>
+      <option value="1.5">Very Fast</option>
+    </select>
+  </div>
+
+  <div class="setting">
+    <label>⏱ Hover Delay (ms)</label>
+    <input id="delay" type="number" min="50" max="1500" />
+  </div>
+
+  <div class="setting">
+    <label>📡 Backend IP</label>
+    <input id="backendIp" type="text" placeholder="127.0.0.1">
+  </div>
+
+  <div class="setting">
+    <label>🔌 Backend Port</label>
+    <input id="backendPort" type="number" placeholder="5555">
+  </div>
+
+  <button id="reset" class="reset-btn">Reset Defaults</button>
+
+</div>
+<script src="scripts/settings.js"></script>git push -u origin main --force
+
+</body>
+</html>

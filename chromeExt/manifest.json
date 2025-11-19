@@ -1,0 +1,67 @@
+{
+  "manifest_version": 3,
+  "name": "HearMeOut, Literally ++",
+  "version": "1.0.0",
+  "description": "Enhances web accessibility for visually impaired users using text-to-speech narration and image captioning.",
+  "author": "Aiden Ricksen, Imad-eddine El Bakiouli, Cagan Kilinc, Youri Krijgsman, Helin Ökmen, Buse Duygun",
+  "action": {
+    "default_title": "HearMeOut, Literally ++",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "Content.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "toggle-extension": {
+      "suggested_key": {
+        "default": "Alt+A"
+      },
+      "description": "Toggle the HearMeOut, Literally ++ on or off"
+    },
+    "pause-resume": {
+      "description": "Pause or resume narration"
+    },
+    "stop-narration": {
+      "description": "Stop narration"
+    },
+    "skip-narration": {
+      "description": "Skip current narration"
+    },
+    "navigate-next": {
+      "description": "Move to next element"
+    },
+    "navigate-prev": {
+      "description": "Move to previous element"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png"  
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["focus-ring.css", "icons/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "optional_permissions": [
+    "tts"
+  ],
+  "short_name": "WAA",
+  "homepage_url": "https://example.com/web-accessibility-extension"
+}

@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  padding: 22px;
+  font-family: "Inter", sans-serif;
+  background: radial-gradient(circle at top, #5fb9ff 0%, #003065 100%);
+  color: white;
+}
+
+.settings-card {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 22px;
+  padding: 22px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg,#f0faff,#b8ddff,#78b5ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+input[type="range"],
+input[type="number"],
+input[type="text"],
+select {
+  width: 140px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.25);
+  color: white;
+}
+
+/* reset button */
+.reset-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px;
+  background: #ff4f4f;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  background: #ff2f2f;
+}
+
+/* Switch UI */
+.switch {
+  position: relative;
+  width: 48px;
+  height: 24px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.4);
+  border-radius: 24px;
+  transition: .3s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: .3s;
+}
+
+input:checked + .slider {
+  background: #00b7ff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
